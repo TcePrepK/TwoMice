@@ -18,8 +18,10 @@ impl Config {
         let database_url = env::var(&url_path)
             .unwrap_or_else(|_| panic!("Missing environmental variable: {}", url_path));
 
-        let service_port = env::var("PORT")
-            .unwrap_or_else(|_| panic!("Missing environmental variable PORT"))
+        let port =
+            env::var("PORT").unwrap_or_else(|_| panic!("Missing environmental variable PORT"));
+        let service_port = port
+            .as_str()
             .parse::<u16>()
             .unwrap_or_else(|_| panic!("Port value must be 16bits integer"));
 
