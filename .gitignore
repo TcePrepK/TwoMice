@@ -18,3 +18,6 @@ docker-data/
 # Logs
 *.log
 logs/
+
+# Make
+make.txt
