@@ -1,0 +1,24 @@
+
+#login
+Invoke-WebRequest -Uri "http://localhost:8080/login" `
+    -Method POST `
+    -Headers @{ "Content-Type" = "application/json" } `
+    -Body '{ "username": "${name}", "password": "${password}" }'
+#sign in
+Invoke-WebRequest -Uri "http://localhost:8080/sign_in" `
+    -Method POST `
+    -Headers @{ "Content-Type" = "application/json" } `
+    -Body '{ "username": "${name}", "password": "${password}" }'
+
+#get request for a profile
+http://localhost:8080/profile?token=abc123
+
+#post
+Invoke-WebRequest -Uri "http://localhost:8080/post" `
+    -Method POST `
+    -Headers @{ "Content-Type" = "application/json" } `
+    -Body '{
+        "token": ${token},
+        "post_content": ${content},
+        "image_url": "${url}"
+    }'
