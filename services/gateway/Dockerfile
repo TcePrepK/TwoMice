@@ -7,10 +7,10 @@ COPY Cargo.toml Cargo.lock ./
 COPY migrator migrator
 COPY services services
 COPY shared shared
-#COPY services/post services/post
+#COPY services/gateway services/gateway
 
 # Build only this service
-RUN cargo build --release -p post
+RUN cargo build --release -p gateway
 
 # Runtime stage
 FROM debian:bookworm-slim
@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-COPY --from=builder /app/target/release/post /app/post
+COPY --from=builder /app/target/release/gateway /app/gateway
 
-#EXPOSE 8080
-CMD ["/app/post"]
+EXPOSE 8080
+CMD ["/app/gateway"]
