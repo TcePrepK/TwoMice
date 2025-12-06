@@ -22,3 +22,13 @@ Invoke-WebRequest -Uri "http://localhost:8080/post" `
         "post_content": ${content},
         "image_url": "${url}"
     }'
+
+#comment
+Invoke-WebRequest -Uri "http://localhost:8080/comment" `
+    -Method POST `
+    -Headers @{ "Content-Type" = "application/json" } `
+    -Body '{
+        "token": ${token},
+        "comment_content": ${content},
+        "post_id": "${post_id}"
+    }'
