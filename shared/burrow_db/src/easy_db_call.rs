@@ -82,6 +82,7 @@ macro_rules! db_call {
             }
 
             // If nothing fits, return fallback method
+            eprintln!("UNEXPECTED SQLx ERROR: {err:?}");
             $fallback(err)
         })
     }};
