@@ -38,3 +38,37 @@ connectivity. Users remain anonymous to each other until they mutually befriend 
     - Account management, session handling, anonymity management, moderation logic
 - ### Database
     - PostgreSQL
+
+## Development
+
+This project uses Rust workspace with Docker based development.  
+Each backend service (gateway, auth etc...) runs inside its own docker container.
+
+- Development: Each service runs with `cargo-watch`. So they hot reload!
+- Production: Each service runs with `--release`, as it should be (duh).
+
+### Requirements
+
+- Docker
+- Docker Compose
+- Rust (optional, only needed if you run without docker)
+- Please don't forget to set up your .env at root!
+
+### Development
+
+### Starting
+
+To start development you can run the following:
+
+```sh 
+docker compose -f docker-compose.dev.yaml up --build
+```
+
+This runs the composer which configures each image and their dependencies!
+
+### Usage
+
+You can access end points using `http://localhost:8080`.  
+This will redirect the routes to `gateway` as it is the only available access point.   
+The idea is to use it as a router towards other services and handle token validation (through `auth`) etc...  
+After validation checks and security protocols, you route to other services using `http://<service>:8080`.
