@@ -1,5 +1,3 @@
-#[cfg(debug_assertions)]
-use dotenvy::dotenv;
 use std::env;
 
 #[derive(Clone)]
@@ -9,14 +7,8 @@ pub struct Config {
 }
 
 impl Config {
-    #[cfg(debug_assertions)]
-    pub fn load_local_env() {
-        eprintln!("Code is checking local env!!!");
-        dotenv().expect("Environmental variables must be set correctly!");
-    }
-
     pub fn load(service: &str) -> Self {
-        let db_var = format!("{service}_DATABASE_URL");
+        let db_var = format!("{}_DATABASE_URL", service.to_uppercase());
 
         let database_url =
             env::var(&db_var).unwrap_or_else(|_| panic!("Missing env variable: {db_var}"));
