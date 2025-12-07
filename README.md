@@ -46,9 +46,11 @@ connectivity. Users remain anonymous to each other until they mutually befriend 
     - Responsive design for desktop and mobile
 - ### Backend
     - RESTful
+    - Microservices!
     - Account management, session handling, anonymity management, moderation logic
 - ### Database
     - PostgreSQL
+    - Runs on NeonDB
 
 ## Development
 
