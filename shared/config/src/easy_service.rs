@@ -9,15 +9,17 @@ macro_rules! launch_service {
 
         let config = Config::load($service);
         let app_data = AppData::new(config.clone()).await?;
-        let addr = format!("{}:{}", $service, config.port);
+        let global_addr = format!("0.0.0.0:{}", config.port);
 
-        println!("Now listening: {addr}");
+        let local_addr = format!("http://{}-service:{}", $service, config.port);
+        println!("Now listening: {local_addr}");
+
         HttpServer::new(move || {
             let mut app = App::new().app_data(web::Data::new(app_data.clone()));
             $( app = app.service($route); )*
             app
         })
-        .bind(&addr)?
+        .bind(&global_addr)?
         .run()
         .await?;
     }};
