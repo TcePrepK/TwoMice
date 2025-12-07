@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: services/auth/Dockerfile
-    container_name: auth
+    container_name: auth-service
     restart: always
     environment:
       AUTH_DATABASE_URL: "${AUTH_DATABASE_URL}"
@@ -13,7 +13,7 @@ services:
     build:
       context: .
       dockerfile: services/post/Dockerfile
-    container_name: post
+    container_name: post-service
     restart: always
     environment:
       POST_DATABASE_URL: "${POST_DATABASE_URL}"
@@ -23,7 +23,6 @@ services:
     build:
       context: .
       dockerfile: services/gateway/Dockerfile
-    container_name: gateway
     restart: always
     environment:
       PORT: 8080

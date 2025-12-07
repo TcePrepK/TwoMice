@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: auth
+    container_name: auth-service
     restart: unless-stopped
     working_dir: /workspace/services/auth
     command: cargo watch -x 'run --release'
@@ -19,7 +19,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: post
+    container_name: post-service
     restart: unless-stopped
     working_dir: /workspace/services/post
     command: cargo watch -x 'run --release'
@@ -35,7 +35,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: gateway
     restart: unless-stopped
     working_dir: /workspace/services/gateway
     command: cargo watch -x 'run --release'
