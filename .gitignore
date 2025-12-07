@@ -19,5 +19,5 @@ docker-data/
 *.log
 logs/
 
-# Make
-make.txt
+# REST
+*.rest
