@@ -1,8 +1,19 @@
+<div align="center">
+    
 # TwoMice
+
+>
+
+![Java](https://img.shields.io/badge/language-Rust-red?logo=rust)
+![License](https://img.shields.io/github/license/TcePrepK/TwoMice)
+![Commits](https://img.shields.io/github/commit-activity/t/TcePrepK/TwoMice)  
+![Last Commit](https://img.shields.io/github/last-commit/TcePrepK/TwoMice)
+![Team](https://img.shields.io/badge/team-TcePrepK%20%7C%20Alaatftin-yellow)
 
 Anonymous Imageboard-Style Social Media Platform
 A web-based social media that combines the anonymity and topic focused discussion of image boards with friend
 connectivity. Users remain anonymous to each other until they mutually befriend each other.
+</div>
 
 ## Features
 
