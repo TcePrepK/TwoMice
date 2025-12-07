@@ -1,5 +1,5 @@
 <div align="center">
-    
+
 # TwoMice
 
 >
@@ -83,3 +83,22 @@ You can access end points using `http://localhost:8080`.
 This will redirect the routes to `gateway` as it is the only available access point.   
 The idea is to use it as a router towards other services and handle token validation (through `auth`) etc...  
 After validation checks and security protocols, you route to other services using `http://<service>:8080`.
+
+### Session Handling
+
+Each user gets assigned a session when they login for the first time in a device. This token gets stored inside the
+browsers' cookie. Afterward when we want to do some kind of request to the backend, we must validate the token first.
+In case it is not a valid token (meaning it doesn't exist in the database or expired) we return back to the login page.
+
+This process can be expressed with a small state machine like this:
+
+```
+Request comes in
+└─> Check cookie
+    ├─ missing         → return 401
+    └─ present
+       ├─ check cache  → valid → continue
+       ├─ check cache  → return 401
+       └─ not in cache → call auth service /validate
+          ├─ success   → cache and continue
+          └─ error     → return 401
