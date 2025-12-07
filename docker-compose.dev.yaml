@@ -1,0 +1,57 @@
+services:
+  auth:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: auth
+    restart: unless-stopped
+    working_dir: /workspace/services/auth
+    command: cargo watch -x 'run --release'
+    volumes:
+      - ./:/workspace
+      - cargo-cache:/usr/local/cargo/registry
+      - target-auth:/app/target
+    environment:
+      AUTH_DATABASE_URL: "${AUTH_DATABASE_URL}"
+      PORT: 8080
+
+  post:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: post
+    restart: unless-stopped
+    working_dir: /workspace/services/post
+    command: cargo watch -x 'run --release'
+    volumes:
+      - ./:/workspace
+      - cargo-cache:/usr/local/cargo/registry
+      - target-post:/app/target
+    environment:
+      POST_DATABASE_URL: "${POST_DATABASE_URL}"
+      PORT: 8080
+
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: gateway
+    restart: unless-stopped
+    working_dir: /workspace/services/gateway
+    command: cargo watch -x 'run --release'
+    volumes:
+      - ./:/workspace
+      - cargo-cache:/usr/local/cargo/registry
+      - target-gateway:/app/target
+    environment:
+      PORT: 8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      - auth
+      - post
+volumes:
+  cargo-cache:
+  target-auth:
+  target-post:
+  target-gateway:
