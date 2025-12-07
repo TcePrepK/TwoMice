@@ -54,9 +54,7 @@ Each backend service (gateway, auth etc...) runs inside its own docker container
 - Rust (optional, only needed if you run without docker)
 - Please don't forget to set up your .env at root!
 
-### Development
-
-### Starting
+### Running
 
 To start development you can run the following:
 
