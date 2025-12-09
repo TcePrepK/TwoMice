@@ -3,6 +3,7 @@ use std::env;
 #[derive(Clone)]
 pub struct Config {
     pub database_url: String,
+    pub app_env: String,
     pub port: u16,
 }
 
@@ -13,11 +14,17 @@ impl Config {
         let database_url =
             env::var(&db_var).unwrap_or_else(|_| panic!("Missing env variable: {db_var}"));
 
+        let app_env = env::var("APP_ENV").unwrap_or_else(|_| "dev".into());
+
         let port = env::var("PORT")
             .unwrap_or_else(|_| panic!("Missing env variable: PORT"))
             .parse::<u16>()
             .unwrap_or_else(|_| panic!("PORT must be a u16"));
 
-        Self { database_url, port }
+        Self {
+            database_url,
+            app_env,
+            port,
+        }
     }
 }
