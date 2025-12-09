@@ -29,3 +29,9 @@ impl FromRequest for UserId {
         ready(Ok(UserId(uuid)))
     }
 }
+
+impl From<UserId> for Uuid {
+    fn from(value: UserId) -> Self {
+        value.0
+    }
+}
