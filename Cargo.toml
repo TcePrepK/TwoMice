@@ -1,3 +1,11 @@
 [workspace]
 resolver = "3"
-members = ["migrator", "services/auth", "services/post", "services/gateway", "shared/config", "shared/burrow_db", "shared/custom_headers"]
+members = [
+    "migrator",
+    "services/auth",
+    "services/gateway",
+    "services/post",
+    "shared/burrow_db",
+    "shared/config",
+    "shared/custom_headers",
+]
