@@ -1,6 +1,7 @@
 pub trait DbErrorTrait: Sized {
     fn from_code(code: &str) -> Self;
     fn unexpected(err: sqlx::Error) -> Self;
+    fn is_unexpected(&self) -> bool;
 }
 
 #[macro_export]
@@ -32,6 +33,10 @@ macro_rules! define_errors {
 
             fn unexpected(err: sqlx::Error) -> Self {
                 $name::Unexpected(err.to_string())
+            }
+
+            fn is_unexpected(&self) -> bool {
+                matches!(self, Self::Unexpected(_))
             }
         }
     };

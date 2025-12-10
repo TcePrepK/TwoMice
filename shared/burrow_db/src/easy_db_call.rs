@@ -51,11 +51,18 @@ macro_rules! db_call {
             .map_err(|err: sqlx::Error| {
                 if let sqlx::Error::Database(db_err) = &err && let Some(code) = db_err.code().as_deref() {
                     // Cast it to the trait, then use the defined "from_code" function instead.
-                    return <$error as $crate::easy_db_error::DbErrorTrait>::from_code(code);
+                    let mapped = <$error as $crate::easy_db_error::DbErrorTrait>::from_code(code);
+
+                    // If `from_code` returned Unexpected, then log it
+                    if <_ as $crate::easy_db_error::DbErrorTrait>::is_unexpected(&mapped) {
+                        log::error!("UNEXPECTED SQLx ERROR (unmapped CODE {code}): {err:?}");
+                    }
+
+                    return mapped;
                 }
 
                 // If nothing fits, fallback to the unexpected error.
-                eprintln!("UNEXPECTED SQLx ERROR: {err:?}");
+                log::error!("UNEXPECTED SQLx ERROR: {err:?}");
                 <$error as $crate::easy_db_error::DbErrorTrait>::unexpected(err)
             })
     }};
@@ -79,11 +86,18 @@ macro_rules! db_call {
             .map_err(|err: sqlx::Error| {
                 if let sqlx::Error::Database(db_err) = &err && let Some(code) = db_err.code().as_deref() {
                     // Cast it to the trait, then use the defined "from_code" function instead.
-                    return <$error as $crate::easy_db_error::DbErrorTrait>::from_code(code);
+                    let mapped = <$error as $crate::easy_db_error::DbErrorTrait>::from_code(code);
+
+                    // If `from_code` returned Unexpected, then log it
+                    if <_ as $crate::easy_db_error::DbErrorTrait>::is_unexpected(&mapped) {
+                        log::error!("UNEXPECTED SQLx ERROR (unmapped CODE {code}): {err:?}");
+                    }
+
+                    return mapped;
                 }
 
                 // If nothing fits, fallback to the unexpected error.
-                eprintln!("UNEXPECTED SQLx ERROR: {err:?}");
+                log::error!("UNEXPECTED SQLx ERROR: {err:?}");
                 <$error as $crate::easy_db_error::DbErrorTrait>::unexpected(err)
             })
     }}
