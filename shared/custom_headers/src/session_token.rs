@@ -1,8 +1,10 @@
 use actix_web::dev::Payload;
 use actix_web::{FromRequest, HttpRequest};
+use sqlx::postgres::{PgArgumentBuffer, PgTypeInfo};
+use sqlx::{Encode, Postgres, Type};
 use std::future::{ready, Ready};
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct SessionToken(pub String);
 
 impl FromRequest for SessionToken {
@@ -35,5 +37,20 @@ impl FromRequest for SessionToken {
 impl From<SessionToken> for String {
     fn from(value: SessionToken) -> Self {
         value.0
+    }
+}
+
+impl Type<Postgres> for SessionToken {
+    fn type_info() -> PgTypeInfo {
+        <String as Type<Postgres>>::type_info()
+    }
+}
+
+impl<'q> Encode<'q, Postgres> for SessionToken {
+    fn encode_by_ref(
+        &self,
+        buf: &mut PgArgumentBuffer,
+    ) -> Result<sqlx::encode::IsNull, sqlx::error::BoxDynError> {
+        <String as Encode<Postgres>>::encode_by_ref(&self.0, buf)
     }
 }

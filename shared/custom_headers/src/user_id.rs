@@ -1,9 +1,11 @@
 use actix_web::dev::Payload;
 use actix_web::{FromRequest, HttpRequest};
+use sqlx::postgres::{PgArgumentBuffer, PgTypeInfo};
+use sqlx::{Encode, Postgres, Type};
 use std::future::{ready, Ready};
 use uuid::Uuid;
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct UserId(pub Uuid);
 
 impl FromRequest for UserId {
@@ -33,5 +35,20 @@ impl FromRequest for UserId {
 impl From<UserId> for Uuid {
     fn from(value: UserId) -> Self {
         value.0
+    }
+}
+
+impl Type<Postgres> for UserId {
+    fn type_info() -> PgTypeInfo {
+        <Uuid as Type<Postgres>>::type_info()
+    }
+}
+
+impl<'q> Encode<'q, Postgres> for UserId {
+    fn encode_by_ref(
+        &self,
+        buf: &mut PgArgumentBuffer,
+    ) -> Result<sqlx::encode::IsNull, sqlx::error::BoxDynError> {
+        self.0.encode_by_ref(buf)
     }
 }
